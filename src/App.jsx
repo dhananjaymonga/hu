@@ -1,36 +1,42 @@
 import React, { useState } from "react";
 
 function App() {
+  const [msg, setMsg] = useState("");
+  const [error, setError] = useState("");
   const [userData, setUserData] = useState({
     name: "",
     email: "",
     password: "",
   });
-  
+
   function handleInput(e) {
     const { id, value } = e.target;
     setUserData({ ...userData, [id]: value });
   }
-  const  handleSubmit = async (e)=> {
-    console.log('click')
+  const handleSubmit = async (e) => {
+    console.log("click");
     e.preventDefault();
     try {
-      const res =  await fetch("http://localhost:5000/logindata", {
+      const res = await fetch("http://localhost:5000/logindata", {
         method: "post",
         body: JSON.stringify(userData),
         headers: {
           "Content-Type": "application/json",
         },
-      })
-      const  data =  await res.json()
-      console.log(data)
+      });
+      const data = await res.json();
+      if (data.success) {
+         return setMsg(data.msg)
+      }
+      setError(data.msg)
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-      
-  }
+  };
   return (
     <div>
+      {msg && <p>{msg}</p>}
+      {error && <p>{error}</p>}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
