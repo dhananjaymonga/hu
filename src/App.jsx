@@ -60,8 +60,11 @@ function App() {
           value={userData.password}
           onChange={handleInput}
         />
-        <button>submit</button>
+        <button>okt</button>
+                <button>submit</button>
+
       </form>
+      
     </div>
   );
 }
